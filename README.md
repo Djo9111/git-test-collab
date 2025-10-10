@@ -8,3 +8,6 @@ Voici comment committer
 
 ## Edition directe dans github 
 C'est modification à été directement introduite dans github.
+
+## Test modification 
+Modienne doit modifier et pusher sans avoir faire le git pull avant 
