@@ -1,5 +1,3 @@
-Voici un **fichier Markdown complet** prêt à copier-coller dans GitHub (par ex. `README.md`) :
-
 ```markdown
 # Django – Mappage (URL Routing) & Modèles
 
@@ -46,6 +44,8 @@ Supposons que quelqu’un visite :
 
 Voici ce qui se passe 👇
 
+---
+
 ### Étape 1 : Django commence dans `mysite/urls.py`
 
 ```python
@@ -61,7 +61,7 @@ urlpatterns = [
 
 🧩 Cela dit à Django :
 
-> “Si l’URL commence par `/polls/`, va chercher la suite du chemin dans le fichier `polls/urls.py`.”
+> “Si l’URL commence par /polls/, va chercher la suite du chemin dans le fichier polls/urls.py.”
 
 ---
 
@@ -79,7 +79,7 @@ urlpatterns = [
 
 🧩 Cela dit :
 
-> “Si, après `/polls/`, il n’y a rien de plus (`""`), alors appelle la vue `views.index`.”
+> “Si, après /polls/, il n’y a rien de plus (""), alors appelle la vue views.index.”
 
 ---
 
@@ -93,7 +93,7 @@ def index(request):
     return HttpResponse("Bienvenue sur la page des sondages !")
 ```
 
-💬 Django exécute cette fonction et renvoie le résultat (`HttpResponse`) au navigateur.
+💬 Django exécute cette fonction et renvoie le résultat (HttpResponse) au navigateur.
 
 ---
 
@@ -131,7 +131,7 @@ Navigateur → urls.py (mysite) → include(polls.urls)
 
 ## 🧱 1) Création et modification de modèles
 
-Les modèles se créent dans le fichier **`models.py`** d’une app Django.
+Les modèles se créent dans le fichier **models.py** d’une app Django.
 
 ```python
 # polls/models.py
@@ -161,7 +161,7 @@ class Choice(models.Model):
 
 ## ⚙️ 2) Activation des modèles (migrations)
 
-1. **Créer les migrations :**
+### Créer les migrations :
 
 ```bash
 python manage.py makemigrations
@@ -169,7 +169,7 @@ python manage.py makemigrations
 
 ➜ Génère les fichiers de migration correspondant aux changements de modèles.
 
-2. **Appliquer les migrations :**
+### Appliquer les migrations :
 
 ```bash
 python manage.py migrate
@@ -178,7 +178,7 @@ python manage.py migrate
 ➜ Met à jour la base de données selon les modèles.
 
 💡 **Pourquoi deux étapes ?**
-Les migrations sont des fichiers **versionnables** (elles peuvent être partagées entre développeurs et appliquées plus tard).
+Les migrations sont des fichiers versionnables (elles peuvent être partagées entre développeurs et appliquées plus tard).
 
 ---
 
@@ -208,8 +208,8 @@ Choice.objects.create(question=q, choice_text="JavaScript", votes=0)
 
 ## 🔗 4) Clé étrangère (ForeignKey)
 
-* Sert à **lier** un modèle à un autre (ex : `Choice` → `Question`).
-* `on_delete=models.CASCADE` : supprime les `Choice` liés quand la `Question` est supprimée.
+* Sert à **lier** un modèle à un autre (ex : `Choice` → `Question`)
+* `on_delete=models.CASCADE` : supprime les `Choice` liés quand la `Question` est supprimée
 * `related_name="choices"` permet d’accéder à la relation inverse facilement :
 
 ```python
@@ -220,7 +220,7 @@ q.choices.all()  # au lieu de q.choice_set.all()
 
 ## 💬 5) Méthode `__str__()`
 
-* Sert à afficher un nom lisible dans l’admin et le shell :
+Sert à afficher un nom lisible dans l’admin et le shell :
 
 ```python
 def __str__(self):
@@ -242,13 +242,13 @@ Question.objects.order_by('-pub_date')
 
 ## 👑 7) Interface d’administration
 
-1. Créer un **superutilisateur** :
+### Créer un superutilisateur :
 
 ```bash
 python manage.py createsuperuser
 ```
 
-2. Enregistrer les modèles dans l’admin :
+### Enregistrer les modèles dans l’admin :
 
 ```python
 # polls/admin.py
@@ -274,16 +274,4 @@ admin.site.register(Choice)
 
 ---
 
-## 🧪 Mini-checklist rapide
 
-* [ ] `mysite/urls.py` inclut `path("polls/", include("polls.urls"))`
-* [ ] `polls/urls.py` mappe `""` vers `views.index`
-* [ ] `polls/views.py` retourne une réponse (`HttpResponse` ou `render`)
-* [ ] `polls/models.py` contient `Question` et `Choice`
-* [ ] Migrations créées et appliquées
-* [ ] Admin configuré (`admin.py`) et superutilisateur créé
-
----
-
-```
-```
