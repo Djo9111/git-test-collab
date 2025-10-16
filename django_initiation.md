@@ -1,3 +1,5 @@
+Voici un **fichier Markdown complet** prêt à copier-coller dans GitHub (par ex. `README.md`) :
+
 ```markdown
 # Django – Mappage (URL Routing) & Modèles
 
@@ -272,7 +274,14 @@ admin.site.register(Choice)
 
 ---
 
+## 🧪 Mini-checklist rapide
 
+* [ ] `mysite/urls.py` inclut `path("polls/", include("polls.urls"))`
+* [ ] `polls/urls.py` mappe `""` vers `views.index`
+* [ ] `polls/views.py` retourne une réponse (`HttpResponse` ou `render`)
+* [ ] `polls/models.py` contient `Question` et `Choice`
+* [ ] Migrations créées et appliquées
+* [ ] Admin configuré (`admin.py`) et superutilisateur créé
 
 ---
 
