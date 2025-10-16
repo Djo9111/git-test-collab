@@ -1,50 +1,43 @@
-```markdown
 # Django – Mappage (URL Routing) & Modèles
 
 > Petit mémo clair et actionnable pour comprendre **comment Django route les URLs** vers des vues et **comment créer/activer des modèles**.
 
 ---
 
-## 🧭 1) Le rôle du « mappage »
+## 🧭 Le rôle du « mappage »
 
 Le **mappage des URLs** (ou *URL routing*) sert à dire à Django :
 
-> “Quand un utilisateur visite telle URL dans son navigateur, **quelle fonction (vue)** doit être exécutée pour répondre ?”
+> "Quand un utilisateur visite telle URL dans son navigateur, **quelle fonction (vue)** doit être exécutée pour répondre ?"
 
-Django lit l’URL et choisit la bonne *vue Python* à appeler.
+Django lit l'URL et choisit la bonne *vue Python* à appeler.
 
 ---
 
-## 🏗️ 2) Le cheminement complet d’une requête
+## 🏗️ Le cheminement complet d'une requête
 
-Prenons un projet d’exemple :
+Prenons un projet d'exemple :
 
 ```
-
 mysite/
 │
 ├── mysite/
 │   ├── urls.py          ← routes principales du projet
 │
 ├── polls/
-│   ├── urls.py          ← routes spécifiques à l’app "polls"
+│   ├── urls.py          ← routes spécifiques à l'app "polls"
 │   ├── views.py         ← fonctions/classes qui répondent aux requêtes
 │
 └── manage.py
-
 ```
 
-Supposons que quelqu’un visite :
+Supposons que quelqu'un visite :
 
 ```
-
-[http://127.0.0.1:8000/polls/](http://127.0.0.1:8000/polls/)
-
-````
+http://127.0.0.1:8000/polls/
+```
 
 Voici ce qui se passe 👇
-
----
 
 ### Étape 1 : Django commence dans `mysite/urls.py`
 
@@ -57,13 +50,11 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("polls/", include("polls.urls")),
 ]
-````
+```
 
 🧩 Cela dit à Django :
 
-> “Si l’URL commence par /polls/, va chercher la suite du chemin dans le fichier polls/urls.py.”
-
----
+> "Si l'URL commence par /polls/, va chercher la suite du chemin dans le fichier polls/urls.py."
 
 ### Étape 2 : Django charge `polls/urls.py`
 
@@ -79,9 +70,7 @@ urlpatterns = [
 
 🧩 Cela dit :
 
-> “Si, après /polls/, il n’y a rien de plus (""), alors appelle la vue views.index.”
-
----
+> "Si, après /polls/, il n'y a rien de plus (""), alors appelle la vue views.index."
 
 ### Étape 3 : Django appelle la vue correspondante
 
@@ -94,8 +83,6 @@ def index(request):
 ```
 
 💬 Django exécute cette fonction et renvoie le résultat (HttpResponse) au navigateur.
-
----
 
 ### ✅ Résultat final
 
@@ -113,7 +100,7 @@ Bienvenue sur la page des sondages !
 
 ---
 
-## 🧩 3) Résumé visuel du flux
+## 🧩 Résumé visuel du flux
 
 ```
 Navigateur → urls.py (mysite) → include(polls.urls)
@@ -129,9 +116,9 @@ Navigateur → urls.py (mysite) → include(polls.urls)
 
 # Modèles
 
-## 🧱 1) Création et modification de modèles
+## 🧱 Création et modification de modèles
 
-Les modèles se créent dans le fichier **models.py** d’une app Django.
+Les modèles se créent dans le fichier **models.py** d'une app Django.
 
 ```python
 # polls/models.py
@@ -159,9 +146,9 @@ class Choice(models.Model):
 
 ---
 
-## ⚙️ 2) Activation des modèles (migrations)
+## ⚙️ Activation des modèles (migrations)
 
-### Créer les migrations :
+### Créer les migrations
 
 ```bash
 python manage.py makemigrations
@@ -169,7 +156,7 @@ python manage.py makemigrations
 
 ➜ Génère les fichiers de migration correspondant aux changements de modèles.
 
-### Appliquer les migrations :
+### Appliquer les migrations
 
 ```bash
 python manage.py migrate
@@ -177,12 +164,12 @@ python manage.py migrate
 
 ➜ Met à jour la base de données selon les modèles.
 
-💡 **Pourquoi deux étapes ?**
+💡 **Pourquoi deux étapes ?**  
 Les migrations sont des fichiers versionnables (elles peuvent être partagées entre développeurs et appliquées plus tard).
 
 ---
 
-## 🐚 3) Créer des objets dans le shell
+## 🐚 Créer des objets dans le shell
 
 Lancer le shell Django :
 
@@ -206,11 +193,11 @@ Choice.objects.create(question=q, choice_text="JavaScript", votes=0)
 
 ---
 
-## 🔗 4) Clé étrangère (ForeignKey)
+## 🔗 Clé étrangère (ForeignKey)
 
-* Sert à **lier** un modèle à un autre (ex : `Choice` → `Question`)
-* `on_delete=models.CASCADE` : supprime les `Choice` liés quand la `Question` est supprimée
-* `related_name="choices"` permet d’accéder à la relation inverse facilement :
+- Sert à **lier** un modèle à un autre (ex : `Choice` → `Question`)
+- `on_delete=models.CASCADE` : supprime les `Choice` liés quand la `Question` est supprimée
+- `related_name="choices"` permet d'accéder à la relation inverse facilement :
 
 ```python
 q.choices.all()  # au lieu de q.choice_set.all()
@@ -218,9 +205,9 @@ q.choices.all()  # au lieu de q.choice_set.all()
 
 ---
 
-## 💬 5) Méthode `__str__()`
+## 💬 Méthode `__str__()`
 
-Sert à afficher un nom lisible dans l’admin et le shell :
+Sert à afficher un nom lisible dans l'admin et le shell :
 
 ```python
 def __str__(self):
@@ -229,7 +216,7 @@ def __str__(self):
 
 ---
 
-## 🔍 6) Requêtes et filtrages (Lookup API)
+## 🔍 Requêtes et filtrages (Lookup API)
 
 ```python
 Question.objects.filter(pub_date__year=2025)
@@ -240,15 +227,15 @@ Question.objects.order_by('-pub_date')
 
 ---
 
-## 👑 7) Interface d’administration
+## 👑 Interface d'administration
 
-### Créer un superutilisateur :
+### Créer un superutilisateur
 
 ```bash
 python manage.py createsuperuser
 ```
 
-### Enregistrer les modèles dans l’admin :
+### Enregistrer les modèles dans l'admin
 
 ```python
 # polls/admin.py
@@ -264,14 +251,10 @@ admin.site.register(Choice)
 ## 🧠 Résumé express
 
 | Étape | Action               | Commande / Fichier                                 |
-| ----- | -------------------- | -------------------------------------------------- |
+|-------|----------------------|----------------------------------------------------|
 | 1     | Créer/éditer modèles | `polls/models.py`                                  |
 | 2     | Générer migrations   | `python manage.py makemigrations`                  |
 | 3     | Appliquer migrations | `python manage.py migrate`                         |
 | 4     | Tester dans le shell | `python manage.py shell`                           |
 | 5     | Clé étrangère        | `ForeignKey(..., on_delete=..., related_name=...)` |
 | 6     | Admin                | `createsuperuser` + `admin.site.register()`        |
-
----
-
-
