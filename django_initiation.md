@@ -12,6 +12,8 @@ Le **mappage des URLs** (ou *URL routing*) sert à dire à Django :
 
 Django lit l'URL et choisit la bonne *vue Python* à appeler.
 
+![Schéma URLS](urls.png)
+
 ---
 
 ## 🏗️ Le cheminement complet d'une requête
